@@ -1,2 +1,2 @@
-# Ap-project
-project
+# StickHero
+StickHero Game
