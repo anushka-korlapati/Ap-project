@@ -58,6 +58,7 @@ public class HelloController implements Initializable {
     private Timeline timeline;
     private boolean isSpaceBarPressed = false;
     private boolean isStickExtending = false;
+    private int firstTime = 0;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -85,6 +86,7 @@ public class HelloController implements Initializable {
             isSpaceBarPressed = false;
             isStickExtending = false;
 
+
             double angle = Math.toRadians(stickLine.getRotate());
 
             // Calculate the new endX and endY
@@ -96,12 +98,19 @@ public class HelloController implements Initializable {
             stickLine.setEndX(newEndX);
             stickLine.setEndY(newEndY);
 
-            // Move the character Up
-            character.moveUp();
-            System.out.println("Character moved forward to positionX: " + character.getPositionX());
+
 
             // Translate the character
             character.translate(stickLine.getEndX() - stickLine.getStartX() + 30);
+
+            // Move the character up if its the first case of stick extension
+            if (firstTime == 0) {
+                // Move the character Up
+                character.moveUp();
+                System.out.println("Character moved forward to positionX: " + character.getPositionX());
+            }
+
+            firstTime++;
 
             // Initialize the next stick
             double stickStartX = 157.0;  // Use a fixed value or adjust as needed

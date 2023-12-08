@@ -89,7 +89,7 @@ public class Character {
     }
 
     public void moveUp() {
-        characterView.setY(characterView.getY()-10);
+        characterView.setY(characterView.getY()-15);
     }
 
     public void moveDown() {
