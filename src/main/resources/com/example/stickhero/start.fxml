@@ -41,10 +41,9 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="30.0" arcWidth="30.0" fill="DODGERBLUE" height="78.0" layoutX="153.0" layoutY="215.0" stroke="DODGERBLUE" strokeType="INSIDE" width="222.0" />
-      <ImageView fitHeight="56.0" fitWidth="72.0" layoutX="231.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@hero-removebg-preview%203.png" />
-         </image>
+      <ImageView fitHeight="56.0" fitWidth="72.0" layoutX="231.0" layoutY="339.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@hero-removebg-preview%203.png"/>
       </ImageView>
       <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="70.0" layoutX="165.0" layoutY="213.0" stroke="#4adeff" strokeType="INSIDE" width="200.0" />
       <Label layoutX="191.0" layoutY="226.0" text="Play now">

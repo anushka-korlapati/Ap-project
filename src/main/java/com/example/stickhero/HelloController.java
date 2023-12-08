@@ -3,6 +3,7 @@ package com.example.stickhero;
 
 import entities.Character;
 import entities.Shark;
+import entities.Stick;  // Import the Stick class
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -34,7 +36,7 @@ public class HelloController implements Initializable {
     private AnchorPane plane;
 
     @FXML
-    private Text score;
+    private Label score;
 
     private double accelerationTime = 0;
     private int gameTime = 0;
@@ -46,6 +48,7 @@ public class HelloController implements Initializable {
     private Line stickLine;
     private Character character;
     private Shark shark;
+    private Stick currentStick;  // Added variable to keep track of the current stick
 
     @FXML
     private ImageView characterImageView;
@@ -99,9 +102,15 @@ public class HelloController implements Initializable {
 
             // Translate the character
             character.translate(stickLine.getEndX() - stickLine.getStartX() + 30);
+
+            // Initialize the next stick
+            double stickStartX = 157.0;  // Use a fixed value or adjust as needed
+            double stickStartY = 375.0;  // Use a fixed value or adjust as needed
+
+            currentStick = new Stick(stickStartX, stickStartY);
+            plane.getChildren().add(currentStick.getStickLine());  // Add the next stick to the scene
         }
     }
-
 
     public Timeline getTimeline() {
         return timeline;
@@ -113,20 +122,17 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         double planeHeight = 730;
         double planeWidth = 834;
 
-
         // Set initial coordinates for the stick
         double startX = 157.0;
-        double startY = 475.0;
+        double startY = 375.0;
         double endX = 157.0;
-        double endY = 475.0;
+        double endY = 375.0;
 
         // Create a new Line object
         stickLine = new Line(startX, startY, endX, endY);
-
 
         // Set the width and color of the line
         stickLine.setStrokeWidth(10.0);
@@ -163,6 +169,15 @@ public class HelloController implements Initializable {
         shark.moveDown();
         System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
 
+        // Initialize the first stick
+        double stickStartX = 157.0;  // Use a fixed value or adjust as needed
+        double stickStartY = 375.0;  // Use a fixed value or adjust as needed
+
+        currentStick = new Stick(stickStartX, stickStartY);
+        if (plane != null) {
+            plane.getChildren().add(currentStick.getStickLine());  // Add the first stick to the scene
+        }
+
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -178,14 +193,7 @@ public class HelloController implements Initializable {
         gameTime++;
         accelerationTime++;
 
-
-//        if (isStickExtending && collisionDetection(stickLine, platforms)) {
-//            // Handle collision (stop the moving platforms, display game over, etc.)
-//            gameLoop.stop();
-//            System.out.println("Game Over! Collision detected.");
-//            return;
-//        }
-
+        // Add your game logic here
     }
 
     public void switchToHome() throws IOException {
