@@ -57,6 +57,6 @@
          </font>
       </Label>
       <Button layoutX="174.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToHome" opacity="0.0" prefHeight="62.0" prefWidth="182.0" text="next" />
-      <Button layoutX="420.0" layoutY="248.0" mnemonicParsing="false" onAction="#switchToScene1" prefHeight="43.0" prefWidth="89.0" text="How To Play" />
+      <Button layoutX="341.0" layoutY="238.0" mnemonicParsing="false" onAction="#switchToScene1" prefHeight="62.0" prefWidth="182.0" text="How To Play" />
    </children>
 </AnchorPane>
