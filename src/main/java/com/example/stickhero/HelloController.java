@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -237,7 +238,7 @@ public class HelloController implements Initializable {
 
     private void resetGame() {
         // Reset the character position
-        character.translate(-characterPosX);
+
 
         // Reset the stick position
         stickLine.setEndX(stickLine.getStartX());
@@ -342,11 +343,16 @@ public class HelloController implements Initializable {
         platform.setX(platform.getX() + amount);
     }
 
+    private void moveCharacter(ImageView characterImageView, double amount) {
+        characterImageView.setX(characterImageView.getX() + amount);
+    }
+
 
     private void moveRectangleToPosition(Rectangle rectangle, double positionX) {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(10), event -> {
-                    movePlatform(rectangle, -3.5); // Adjust the amount based on your preference
+                    movePlatform(rectangle, -3.5);
+                    moveCharacter(characterImageView, -3.5);// Adjust the amount based on your preference
                 })
         );
         timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
