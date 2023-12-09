@@ -90,9 +90,13 @@ public class HelloController implements Initializable {
             isSpaceBarPressed = true;
             isStickExtending = true;
             stickLine.setEndY(stickLine.getEndY() - 10);
-
-            // Make the line visible by setting opacity to 1
             stickLine.setOpacity(1.0);
+        } else if (event.getCode() == KeyCode.DOWN) {
+            // Calculate the angle of the stick
+            double angle = Math.toRadians(stickLine.getRotate());
+
+            // Invert the character based on the orientation of the stick
+            characterImageView.setScaleX(Math.cos(angle) >= 0 ? 1 : -1);
         }
     }
 
@@ -321,8 +325,12 @@ public class HelloController implements Initializable {
         homeScene.setOnKeyReleased(controller::handleKeyRelease);
 
         // Set the scene to the stage
-        stage.setScene(homeScene);
-        stage.show();
+        if (stage != null) {
+            stage.setScene(homeScene);
+            stage.show();
+        } else {
+            System.err.println("stage is null. Please check your FXML file.");
+        }
     }
 
 
