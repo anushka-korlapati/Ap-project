@@ -220,7 +220,8 @@ public class HelloController implements Initializable {
 
     private void resetGame() {
         // Reset the character position
-        character.translate(-characterPosX);
+        double stickLength = Math.abs(stickLine.getStartY() - stickLine.getEndY());
+        character.translate( stickLength- character.getPositionX());
 
         // Reset the stick position
         stickLine.setEndX(stickLine.getStartX());
@@ -242,7 +243,7 @@ public class HelloController implements Initializable {
             gameLoop.stop();
 
             // Introduce a delay before moving rectangles and resetting the game
-            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
             delay.setOnFinished(event -> {
                 moveRectangleOutOfScreen(rectangle1);
 
