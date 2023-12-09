@@ -1,10 +1,8 @@
 // HelloController.java
 package com.example.stickhero;
 
+import entities.*;
 import entities.Character;
-import entities.Platform;
-import entities.Shark;
-import entities.Stick;  // Import the Stick class
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Duration;
@@ -30,8 +26,11 @@ import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Iterator;
+import java.util.stream.Collectors;
 
 public class HelloController implements Initializable {
     private HelloController controller;
@@ -53,7 +52,6 @@ public class HelloController implements Initializable {
 
     double stickEnd;
     double rectangleRange;
-
     private Stage stage;
     private Scene scene;
     private Line stickLine;
@@ -61,6 +59,13 @@ public class HelloController implements Initializable {
     private Rectangle rectangle2;
     private Character character;
     private Shark shark;
+    private List<Cherry> cherries = new ArrayList<>();
+    private double cherrySize = 20; // You can adjust the size based on your needs
+    private double planeWidth = 800; // Set it to the actual width of your game plane
+    private double planeHeight = 730; // Set it to the actual height of your game plane
+
+    private boolean isStickExtending = false;
+
     private Stick currentStick;  // Added variable to keep track of the current stick
 
     private Platform platformHandler;
@@ -76,7 +81,6 @@ public class HelloController implements Initializable {
     private MediaPlayer mediaPlayer;
     private Parent root;
     private boolean isSpaceBarPressed = false;
-    private boolean isStickExtending = false;
     private int firstTime = 0;
 
     public void setStage(Stage stage) {
@@ -139,6 +143,10 @@ public class HelloController implements Initializable {
 
             firstTime++;
 
+            if (controller != null) {
+                // Set the gameStarted flag
+                controller.setGameStarted(true);
+            }
 
             // Initialize the next stick
             double stickStartX = 157.0;  // Use a fixed value or adjust as needed
@@ -159,19 +167,9 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Media media = new Media(String.valueOf(getClass().getResource("/com/example/stickhero/sb_indreams(chosic.com).mp3")));
-
-        // Create a MediaPlayer
-        mediaPlayer = new MediaPlayer(media);
-
-        // Set the volume (0.0 to 1.0)
-        mediaPlayer.setVolume(0.5);
-
-        // Set cycle count (MediaPlayer.INDEFINITE for indefinite looping)
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-        // Play the music
-        mediaPlayer.play();
+        // Initialize the media player
+        // Implementing Singleton Design Pattern, so that only one instance of MediaPlayer is created
+        mediaPlayer();
 
         double posX, posY, width, height;
         rectangle1 = new Rectangle(54, 385, 105, 248);
@@ -257,7 +255,6 @@ public class HelloController implements Initializable {
     private void resetGame() {
         // Reset the character position
 
-
         // Reset the stick position
         stickLine.setEndX(stickLine.getStartX());
         stickLine.setEndY(stickLine.getStartY());
@@ -266,6 +263,10 @@ public class HelloController implements Initializable {
         // (e.g., reset firstTime, clear the rectangles, etc.)
         rectangle = generateRandomRectangle();
 
+        cherries.add(new Cherry(random.nextDouble() * (planeWidth - cherrySize), random.nextDouble() * (planeHeight - cherrySize)));
+        plane.getChildren().addAll(cherries.stream().map(Cherry::getCherryImageView).collect(Collectors.toList()));
+
+        cherries.forEach(Cherry::resetCherry);
     }
 
     private void mainReset() {
@@ -284,8 +285,10 @@ public class HelloController implements Initializable {
         // Set the gameStarted flag
         controller.setGameStarted(true);
 
-        if (madeContact(stickLine, rectangle2)) {
+        // Check for cherry collection
+        checkCherryCollection();
 
+        if (madeContact(stickLine, rectangle2)) {
             System.out.println("Collision");
             scoreCounter++;
             score.setText(String.valueOf(scoreCounter));
@@ -305,18 +308,44 @@ public class HelloController implements Initializable {
 
             });
             delay.play();
-
         } else {
             System.out.println("No Collision");
             scoreCounter++;
 
             gameLoop.stop();
 
+            // Check if the stickLine is extending, then trigger falling
+            if (isStickExtending) {
+                fallCharacter();
+            }
+
             switchToEnd();
         }
-
     }
 
+    private void checkCherryCollection() {
+        Iterator<Cherry> iterator = cherries.iterator();
+        while (iterator.hasNext()) {
+            Cherry cherry = iterator.next();
+            if (!cherry.isCollected() && cherry.checkCollision(characterImageView)) {
+                // Cherry collected
+                cherry.collectCherry();
+                scoreCounter++; // Update the score
+                score.setText(String.valueOf(scoreCounter));
+            }
+        }
+    }
+
+    // Method to make the character fall down
+    private void fallCharacter() {
+        Timeline fallTimeline = new Timeline(
+                new KeyFrame(Duration.millis(10), event -> {
+                    moveCharacterY(characterImageView, 3.5); // Adjust the fall speed based on your preference
+                })
+        );
+        fallTimeline.setCycleCount(Animation.INDEFINITE);
+        fallTimeline.play();
+    }
 
     public void switchToHome() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
@@ -388,8 +417,12 @@ public class HelloController implements Initializable {
         platform.setX(platform.getX() + amount);
     }
 
-    private void moveCharacter(ImageView characterImageView, double amount) {
+    private void moveCharacterX(ImageView characterImageView, double amount) {
         characterImageView.setX(characterImageView.getX() + amount);
+    }
+
+    private void moveCharacterY(ImageView characterImageView, double amount) {
+        characterImageView.setY(characterImageView.getY() + amount);
     }
 
 
@@ -397,7 +430,7 @@ public class HelloController implements Initializable {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(10), event -> {
                     movePlatform(rectangle, -3.5);
-                    moveCharacter(characterImageView, -3.5);// Adjust the amount based on your preference
+                    moveCharacterX(characterImageView, -3.5); // Adjust the amount based on your preference
                 })
         );
         timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
@@ -417,7 +450,7 @@ public class HelloController implements Initializable {
         double randomSpace = random.nextDouble() * (spaceMax - spaceMin) + spaceMin;
         double randomX = random.nextDouble() * (400 - 250) + 250;
 
-        Rectangle newRandomRectangle = new Rectangle(randomX, 385, randomWidth, 248);
+        Rectangle newRandomRectangle = new Rectangle(randomX, planeHeight - randomWidth, randomWidth, 248);
         newRandomRectangle.setFill(Color.WHITE);
 
         plane.getChildren().add(newRandomRectangle);
@@ -518,5 +551,21 @@ public class HelloController implements Initializable {
 
     public boolean isGameStarted() {
         return gameStarted;
+    }
+
+    public void mediaPlayer() {
+        Media media = new Media(String.valueOf(getClass().getResource("/com/example/stickhero/sb_indreams(chosic.com).mp3")));
+
+        // Create a MediaPlayer
+        mediaPlayer = new MediaPlayer(media);
+
+        // Set the volume (0.0 to 1.0)
+        mediaPlayer.setVolume(0.5);
+
+        // Set cycle count (MediaPlayer.INDEFINITE for indefinite looping)
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Play the music
+        mediaPlayer.play();
     }
 }
