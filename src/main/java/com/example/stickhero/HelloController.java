@@ -2,12 +2,10 @@
 package com.example.stickhero;
 
 import entities.Character;
+import entities.Platform;
 import entities.Shark;
 import entities.Stick;  // Import the Stick class
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -17,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -42,16 +41,24 @@ public class HelloController implements Initializable {
     private int gameTime = 0;
     private int scoreCounter = 0;
 
+    double stickEnd;
+    double rectangleRange;
 
     private Stage stage;
     private Scene scene;
     private Line stickLine;
+    private Rectangle rectangle1;
+    private Rectangle rectangle2;
     private Character character;
     private Shark shark;
     private Stick currentStick;  // Added variable to keep track of the current stick
 
+    private Platform platformHandler;
+
     @FXML
     private ImageView characterImageView;
+
+    double characterPosX = 100;
 
     @FXML
     private ImageView sharkImageView;
@@ -94,10 +101,12 @@ public class HelloController implements Initializable {
             double newEndX = stickLine.getStartX() + length * Math.cos(angle);
             double newEndY = stickLine.getStartY() - length * Math.sin(angle);
 
+            stickEnd = newEndX;
+            rectangleRange = rectangle2.getX()+rectangle2.getWidth();
+
             // Set the new endX and endY
             stickLine.setEndX(newEndX);
             stickLine.setEndY(newEndY);
-
 
 
             // Translate the character
@@ -111,6 +120,8 @@ public class HelloController implements Initializable {
             }
 
             firstTime++;
+
+
 
             // Initialize the next stick
             double stickStartX = 157.0;  // Use a fixed value or adjust as needed
@@ -131,12 +142,20 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        double posX, posY, width,height;
+        rectangle1 = new Rectangle(54, 385, 105, 248);
+        rectangle1.setFill(Color.WHITE);
+
+        rectangle2 = new Rectangle(330, 385, 105, 248);
+        rectangle2.setFill(Color.WHITE);
+
         double planeHeight = 730;
         double planeWidth = 834;
 
         // Set initial coordinates for the stick
         double startX = 157.0;
-        double startY = 375.0;
+        double startY = 380.0;
         double endX = 157.0;
         double endY = 375.0;
 
@@ -184,7 +203,9 @@ public class HelloController implements Initializable {
 
         currentStick = new Stick(stickStartX, stickStartY);
         if (plane != null) {
-            plane.getChildren().add(currentStick.getStickLine());  // Add the first stick to the scene
+            plane.getChildren().add(currentStick.getStickLine());
+            plane.getChildren().add(rectangle1);
+            plane.getChildren().add(rectangle2);
         }
 
         gameLoop = new AnimationTimer() {
@@ -197,13 +218,47 @@ public class HelloController implements Initializable {
         gameLoop.start();
     }
 
+    private void resetGame() {
+        // Reset the character position
+        character.translate(-characterPosX);
+
+        // Reset the stick position
+        stickLine.setEndX(stickLine.getStartX());
+        stickLine.setEndY(stickLine.getStartY());
+
+        // Reset other necessary game state variables
+        // (e.g., reset firstTime, clear the rectangles, etc.)
+    }
+
     // Called every game frame
     private void update() {
         gameTime++;
         accelerationTime++;
 
+        if (madeContact(stickLine, rectangle2)) {
+            System.out.println("Collision");
+            scoreCounter++;
+            score.setText(String.valueOf(scoreCounter));
+            gameLoop.stop();
+
+            // Introduce a delay before moving rectangles and resetting the game
+            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+            delay.setOnFinished(event -> {
+                moveRectangleOutOfScreen(rectangle1);
+
+                // Move rectangle2 to the position of rectangle1
+                moveRectangleToPosition(rectangle2, rectangle1.getX());
+
+                // Reset the game
+                resetGame();
+            });
+            delay.play();
+        }
+
         // Add your game logic here
     }
+
+
 
     public void switchToHome() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
@@ -236,6 +291,8 @@ public class HelloController implements Initializable {
         stage.show();
     }
 
+
+
     public void switchToEnd() throws IOException {
         if (stickLine != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("end.fxml"));
@@ -247,12 +304,39 @@ public class HelloController implements Initializable {
         }
     }
 
-    public boolean collisionDetection(Line stick, ArrayList<Rectangle> obstacles) {
-        for (Rectangle rectangle : obstacles) {
-            if (stick.getBoundsInParent().intersects(rectangle.getBoundsInParent())) {
-                return true;
-            }
-        }
-        return false;
+    private boolean madeContact(Line stick, Rectangle rectangle) {
+
+        double stickEndX = stickEnd;
+        double rectangleStartX = rectangle.getX();
+        double rectangleEndX = rectangleRange;
+
+        return stickEndX >= rectangleStartX && stickEndX <= rectangleEndX;
     }
+
+    private void moveRectangleOutOfScreen(Rectangle rectangle) {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(10), event -> {
+                    movePlatform(rectangle, -3); // Adjust the amount based on your preference
+                })
+        );
+        timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
+        timeline.play();
+    }
+
+    private void movePlatform(Rectangle platform, double amount) {
+        platform.setX(platform.getX() + amount);
+    }
+
+
+    private void moveRectangleToPosition(Rectangle rectangle, double positionX) {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(10), event -> {
+                    movePlatform(rectangle, -3.5); // Adjust the amount based on your preference
+                })
+        );
+        timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
+        timeline.play();
+    }
+
+
 }

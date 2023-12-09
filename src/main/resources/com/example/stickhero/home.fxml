@@ -30,7 +30,7 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7aa9a4" height="70.0" layoutX="214.0" layoutY="150.0" opacity="0.48" stroke="#aeaeae" strokeType="INSIDE" strokeWidth="0.0" width="105.0" />
-      <Label fx:id="score" layoutX="222.0" layoutY="158.0" text="Score" textFill="WHITE">
+      <Label fx:id="score" layoutX="256.0" layoutY="158.0" text="0" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
@@ -52,8 +52,5 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="248.0" layoutX="54.0" layoutY="385.0" stroke="WHITE" strokeType="INSIDE" width="105.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="248.0" layoutX="330.0" layoutY="385.0" stroke="WHITE" strokeType="INSIDE" width="132.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff0000" height="10.0" layoutX="381.0" layoutY="385.0" stroke="RED" strokeType="INSIDE" width="30.0" />
    </children>
 </AnchorPane>
