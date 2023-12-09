@@ -22,7 +22,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Duration;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class HelloController implements Initializable {
     @FXML
     private ImageView sharkImageView;
     private Timeline timeline;
+    private MediaPlayer mediaPlayer;
+    private Parent root;
     private boolean isSpaceBarPressed = false;
     private boolean isStickExtending = false;
     private int firstTime = 0;
@@ -142,6 +145,19 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Media media = new Media(String.valueOf(getClass().getResource("/com/example/stickhero/sb_indreams(chosic.com).mp3")));
+
+        // Create a MediaPlayer
+        mediaPlayer = new MediaPlayer(media);
+
+        // Set the volume (0.0 to 1.0)
+        mediaPlayer.setVolume(0.5);
+
+        // Set cycle count (MediaPlayer.INDEFINITE for indefinite looping)
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Play the music
+        mediaPlayer.play();
 
         double posX, posY, width,height;
         rectangle1 = new Rectangle(54, 385, 105, 248);
@@ -220,8 +236,7 @@ public class HelloController implements Initializable {
 
     private void resetGame() {
         // Reset the character position
-        double stickLength = Math.abs(stickLine.getStartY() - stickLine.getEndY());
-        character.translate( stickLength- character.getPositionX());
+        character.translate(-characterPosX);
 
         // Reset the stick position
         stickLine.setEndX(stickLine.getStartX());
@@ -243,7 +258,7 @@ public class HelloController implements Initializable {
             gameLoop.stop();
 
             // Introduce a delay before moving rectangles and resetting the game
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            PauseTransition delay = new PauseTransition(Duration.seconds(2));
             delay.setOnFinished(event -> {
                 moveRectangleOutOfScreen(rectangle1);
 
@@ -338,6 +353,4 @@ public class HelloController implements Initializable {
         timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
         timeline.play();
     }
-
-
 }
