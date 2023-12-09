@@ -47,6 +47,8 @@ public class HelloController implements Initializable {
     private double accelerationTime = 0;
     private int gameTime = 0;
     private int scoreCounter = 0;
+    private boolean gameStarted = false;
+
 
     double stickEnd;
     double rectangleRange;
@@ -90,13 +92,16 @@ public class HelloController implements Initializable {
             isSpaceBarPressed = true;
             isStickExtending = true;
             stickLine.setEndY(stickLine.getEndY() - 10);
+
+            // Make the line visible by setting opacity to 1
             stickLine.setOpacity(1.0);
         } else if (event.getCode() == KeyCode.DOWN) {
-            // Calculate the angle of the stick
-            double angle = Math.toRadians(stickLine.getRotate());
-
-            // Invert the character based on the orientation of the stick
-            characterImageView.setScaleX(Math.cos(angle) >= 0 ? 1 : -1);
+            // Invert the character when the down arrow key is pressed
+            characterImageView.setY(characterImageView.getY() + 60);
+            characterImageView.setScaleY(characterImageView.getScaleY() * -1);
+        } else if (event.getCode() == KeyCode.UP) {
+            characterImageView.setY(characterImageView.getY() - 60);
+            characterImageView.setScaleY(characterImageView.getScaleY() * -1);
         }
     }
 
@@ -105,7 +110,6 @@ public class HelloController implements Initializable {
         if (event.getCode() == KeyCode.SPACE) {
             isSpaceBarPressed = false;
             isStickExtending = false;
-
 
             double angle = Math.toRadians(stickLine.getRotate());
 
@@ -189,7 +193,7 @@ public class HelloController implements Initializable {
 
         // Set the width and color of the line
         stickLine.setStrokeWidth(10.0);
-        stickLine.setStroke(javafx.scene.paint.Color.rgb(150, 75, 0));
+        stickLine.setStroke(Color.rgb(150, 75, 0));
 
         // Set the initial opacity to zero
         stickLine.setOpacity(0.0);
@@ -236,7 +240,11 @@ public class HelloController implements Initializable {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                update();
+                try {
+                    update(HelloController.this);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
 
@@ -268,11 +276,15 @@ public class HelloController implements Initializable {
     }
 
     // Called every game frame
-    private void update() {
+    private void update(HelloController controller) throws IOException {
         gameTime++;
         accelerationTime++;
 
+        // Set the gameStarted flag
+        controller.setGameStarted(true);
+
         if (madeContact(stickLine, rectangle2)) {
+
             System.out.println("Collision");
             scoreCounter++;
             score.setText(String.valueOf(scoreCounter));
@@ -293,6 +305,13 @@ public class HelloController implements Initializable {
             });
             delay.play();
 
+        } else {
+            System.out.println("No Collision");
+            scoreCounter++;
+
+            gameLoop.stop();
+
+            switchToEnd();
         }
 
     }
@@ -335,13 +354,13 @@ public class HelloController implements Initializable {
 
 
     public void switchToEnd() throws IOException {
-        if (stickLine != null) {
+        if (gameStarted && stickLine != null && madeContact(stickLine, rectangle2)) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("end.fxml"));
             scene = new Scene(loader.load());
             stage.setScene(scene);
             stage.show();
         } else {
-            System.err.println("stickLine is null. Please check your FXML file.");
+            System.err.println("Cannot switch to end scene. Please check collision or game state.");
         }
     }
 
@@ -490,5 +509,13 @@ public class HelloController implements Initializable {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
     }
 }
