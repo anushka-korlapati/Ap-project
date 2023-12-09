@@ -52,5 +52,10 @@
             <Font size="19.0" />
          </font>
       </Label>
+      <ImageView fx:id="cherryImageView" fitHeight="41.0" fitWidth="56.0" layoutX="108.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" x="200.0">
+         <image>
+            <Image url="@9162409-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

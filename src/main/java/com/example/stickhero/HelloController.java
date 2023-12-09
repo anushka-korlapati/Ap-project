@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,11 +26,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Iterator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController implements Initializable {
@@ -43,6 +40,9 @@ public class HelloController implements Initializable {
 
     @FXML
     private Label score;
+
+    @FXML
+    public ImageView cherryImageView;
 
     private double accelerationTime = 0;
     private int gameTime = 0;
@@ -59,7 +59,7 @@ public class HelloController implements Initializable {
     private Rectangle rectangle2;
     private Character character;
     private Shark shark;
-    private List<Cherry> cherries = new ArrayList<>();
+//    private List<Cherry> cherries = new ArrayList<>();
     private double cherrySize = 20; // You can adjust the size based on your needs
     private double planeWidth = 800; // Set it to the actual width of your game plane
     private double planeHeight = 730; // Set it to the actual height of your game plane
@@ -82,6 +82,8 @@ public class HelloController implements Initializable {
     private Parent root;
     private boolean isSpaceBarPressed = false;
     private int firstTime = 0;
+    Timeline running;
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -110,6 +112,9 @@ public class HelloController implements Initializable {
         }
     }
 
+    public boolean charLanded() {
+        return rectangle2.getX() <= stickLine.getEndX() && rectangle2.getX() + rectangle2.getWidth() >= stickLine.getEndX();
+    }
     @FXML
     private void handleKeyRelease(KeyEvent event) {
         if (event.getCode() == KeyCode.SPACE) {
@@ -132,14 +137,54 @@ public class HelloController implements Initializable {
 
 
             // Translate the character
-            character.translate(stickLine.getEndX() - stickLine.getStartX() + 30);
+//            character.translate();
+            final int[] x = {(int) character.getPositionX()};
+            running = new Timeline(new KeyFrame(Duration.millis(5), event1 -> {
+                if (charLanded()) {
+                    if (collectCherry()) {
+                        cherryImageView.setOpacity(0);
+                        scoreCounter++;
+                        score.setText(String.valueOf(scoreCounter));
+                    }
+                    if (x[0] < stickLine.getEndX() + 30) {
+                        System.out.println(stickLine.getEndX());
+                        System.out.println(stickLine.getStartX());
+                        System.out.println(x[0]);
+                        moveCharacterX(characterImageView, 1, x[0]);
+                        x[0]++;
+                        System.out.println(x[0]);// Adjust the speed based on your preference
+                    } else {
+                        stop();
+                        resetGame();
+                    }
+                } else {
+                    if (x[0] < stickLine.getEndX() + 30) {
+                        System.out.println(stickLine.getEndX());
+                        System.out.println(stickLine.getStartX());
+                        System.out.println(x[0]);
+                        moveCharacterX(characterImageView, 1, x[0]);
+                        x[0]++;
+                        System.out.println(x[0]);// Adjust the speed based on your preference
+                    } else {
+                        stop();
+                        fallCharacter();
+                        try {
+                            switchToEnd();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                })
+            );
+            running.setCycleCount(Animation.INDEFINITE);
+            running.play();
+
 
             // Move the character up if its the first case of stick extension
-            if (firstTime == 0) {
-                // Move the character Up
-                character.moveUp();
-                System.out.println("Character moved forward to positionX: " + character.getPositionX());
-            }
+
+            System.out.println("Character moved forward to positionX: " + character.getPositionX());
+            character.moveUp();
 
             firstTime++;
 
@@ -155,6 +200,11 @@ public class HelloController implements Initializable {
             currentStick = new Stick(stickStartX, stickStartY);
             plane.getChildren().add(currentStick.getStickLine());  // Add the next stick to the scene
         }
+    }
+
+    private void stop()
+    {
+        running.stop();
     }
 
     public Timeline getTimeline() {
@@ -207,7 +257,6 @@ public class HelloController implements Initializable {
                 stickLine.setEndY(stickLine.getEndY() - 1);
             }
         });
-
         // Create a timeline with the key frame
         timeline = new Timeline(keyFrame);
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -251,10 +300,15 @@ public class HelloController implements Initializable {
     }
 
     Rectangle rectangle;
+    public Image cherryImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/stickhero/9162409-removebg-preview.png")));
+
+    public boolean collectCherry() {
+        return cherryImageView.getX() == characterImageView.getX();
+    }
 
     private void resetGame() {
         // Reset the character position
-
+        character.moveDown();
         // Reset the stick position
         stickLine.setEndX(stickLine.getStartX());
         stickLine.setEndY(stickLine.getStartY());
@@ -263,10 +317,15 @@ public class HelloController implements Initializable {
         // (e.g., reset firstTime, clear the rectangles, etc.)
         rectangle = generateRandomRectangle();
 
-        cherries.add(new Cherry(random.nextDouble() * (planeWidth - cherrySize), random.nextDouble() * (planeHeight - cherrySize)));
-        plane.getChildren().addAll(cherries.stream().map(Cherry::getCherryImageView).collect(Collectors.toList()));
+//        cherries.add(new Cherry(random.nextDouble() * (planeWidth - cherrySize), random.nextDouble() * (planeHeight - cherrySize)));
+        Random random1 = new Random();
+        int x = random1.nextInt(75)+50;
+        cherryImageView.setOpacity(1);
+        cherryImageView.setX(x);
+        characterImageView.setX(5);
 
-        cherries.forEach(Cherry::resetCherry);
+
+//        cherries.forEach(Cherry::resetCherry);
     }
 
     private void mainReset() {
@@ -276,6 +335,7 @@ public class HelloController implements Initializable {
         rectangle2 = rectangle;
 
     }
+    int isDead = 0;
 
     // Called every game frame
     private void update(HelloController controller) throws IOException {
@@ -285,8 +345,8 @@ public class HelloController implements Initializable {
         // Set the gameStarted flag
         controller.setGameStarted(true);
 
-        // Check for cherry collection
-        checkCherryCollection();
+//        // Check for cherry collection
+//        checkCherryCollection();
 
         if (madeContact(stickLine, rectangle2)) {
             System.out.println("Collision");
@@ -297,12 +357,6 @@ public class HelloController implements Initializable {
             // Introduce a delay before moving rectangles and resetting the game
             PauseTransition delay = new PauseTransition(Duration.seconds(2));
             delay.setOnFinished(event -> {
-                moveRectangleOutOfScreen(rectangle1);
-
-                // Move rectangle2 to the position of rectangle1
-                moveRectangleToPosition(rectangle2, rectangle1.getX());
-
-                // Reset the game
                 resetGame();
                 mainReset();
 
@@ -311,7 +365,6 @@ public class HelloController implements Initializable {
         } else {
             System.out.println("No Collision");
             scoreCounter++;
-
             gameLoop.stop();
 
             // Check if the stickLine is extending, then trigger falling
@@ -323,25 +376,27 @@ public class HelloController implements Initializable {
         }
     }
 
-    private void checkCherryCollection() {
-        Iterator<Cherry> iterator = cherries.iterator();
-        while (iterator.hasNext()) {
-            Cherry cherry = iterator.next();
-            if (!cherry.isCollected() && cherry.checkCollision(characterImageView)) {
-                // Cherry collected
-                cherry.collectCherry();
-                scoreCounter++; // Update the score
-                score.setText(String.valueOf(scoreCounter));
-            }
-        }
-    }
+//    private void checkCherryCollection() {
+//        Iterator<Cherry> iterator = cherries.iterator();
+//        while (iterator.hasNext()) {
+//            Cherry cherry = iterator.next();
+//            if (!cherry.isCollected() && cherry.checkCollision(characterImageView)) {
+//                // Cherry collected
+//                cherry.collectCherry();
+//                scoreCounter++; // Update the score
+//                score.setText(String.valueOf(scoreCounter));
+//            }
+//        }
+//    }
 
     // Method to make the character fall down
     private void fallCharacter() {
         Timeline fallTimeline = new Timeline(
                 new KeyFrame(Duration.millis(10), event -> {
-                    moveCharacterY(characterImageView, 3.5); // Adjust the fall speed based on your preference
+                    moveCharacterY(characterImageView, 3.5);
+                    isDead = 1;
                 })
+
         );
         fallTimeline.setCycleCount(Animation.INDEFINITE);
         fallTimeline.play();
@@ -384,7 +439,7 @@ public class HelloController implements Initializable {
 
 
     public void switchToEnd() throws IOException {
-        if (gameStarted && stickLine != null && madeContact(stickLine, rectangle2)) {
+        if (isDead != 0) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("end.fxml"));
             scene = new Scene(loader.load());
             stage.setScene(scene);
@@ -398,7 +453,7 @@ public class HelloController implements Initializable {
 
         double stickEndX = stickEnd;
         double rectangleStartX = rectangle.getX();
-        double rectangleEndX = rectangleRange;
+        double rectangleEndX = rectangle.getX() + rectangle.getWidth();
 
         return stickEndX >= rectangleStartX && stickEndX <= rectangleEndX;
     }
@@ -417,8 +472,9 @@ public class HelloController implements Initializable {
         platform.setX(platform.getX() + amount);
     }
 
-    private void moveCharacterX(ImageView characterImageView, double amount) {
+    private void moveCharacterX(ImageView characterImageView, double amount, int x) {
         characterImageView.setX(characterImageView.getX() + amount);
+        x++;
     }
 
     private void moveCharacterY(ImageView characterImageView, double amount) {
@@ -426,16 +482,6 @@ public class HelloController implements Initializable {
     }
 
 
-    private void moveRectangleToPosition(Rectangle rectangle, double positionX) {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(10), event -> {
-                    movePlatform(rectangle, -3.5);
-                    moveCharacterX(characterImageView, -3.5); // Adjust the amount based on your preference
-                })
-        );
-        timeline.setCycleCount((int) ((int) rectangle.getWidth() / 1.5)); // Adjust the duration based on the width of the rectangle
-        timeline.play();
-    }
 
     private double widthMax = 160;
     private double widthMin = 45;
