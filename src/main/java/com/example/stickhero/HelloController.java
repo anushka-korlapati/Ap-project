@@ -114,7 +114,6 @@ public class HelloController implements Initializable {
             stickLine.setEndX(newEndX);
             stickLine.setEndY(newEndY);
 
-
             // Translate the character
             character.translate(stickLine.getEndX() - stickLine.getStartX() + 30);
 
@@ -160,6 +159,7 @@ public class HelloController implements Initializable {
 
         // Play the music
         mediaPlayer.play();
+
 
         double posX, posY, width, height;
         rectangle1 = new Rectangle(54, 385, 105, 248);
@@ -446,3 +446,6 @@ public class HelloController implements Initializable {
         stage.setScene(scene);
     }
 }
+
+
+
