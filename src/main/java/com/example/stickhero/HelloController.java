@@ -252,15 +252,15 @@ public class HelloController implements Initializable {
         // Reset other necessary game state variables
         // (e.g., reset firstTime, clear the rectangles, etc.)
         rectangle = generateRandomRectangle();
-        
+
     }
-    
-    private void mainReset(){
-        
+
+    private void mainReset() {
+
         Rectangle temp = rectangle2;
         rectangle1 = rectangle2;
         rectangle2 = rectangle;
-        
+
     }
 
     // Called every game frame
@@ -397,8 +397,90 @@ public class HelloController implements Initializable {
         return newRandomRectangle;
     }
 
+    public void switchToScene1(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew1.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    public void switchToScene2(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew2.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    public void switchToScene3(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew3.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
 
+    }
 
+    public void switchToScene4(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew4.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene5(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew5.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene6(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew6.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene7(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew7.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene8(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew8.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene9(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew9.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene10(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew10.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene11(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew11.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
 }
