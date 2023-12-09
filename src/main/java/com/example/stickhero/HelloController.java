@@ -34,6 +34,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
+    private HelloController controller;
 
     private Random random = new Random();
 
