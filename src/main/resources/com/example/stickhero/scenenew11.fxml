@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="730.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ap_project.HelloController">
+   <children>
+      <ImageView fitHeight="733.0" fitWidth="840.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+         <image>
+            <Image url="@underwater_scenery2.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="187.0" fitWidth="177.0" layoutX="449.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@octopus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="254.0" fitWidth="283.0" layoutX="19.0" layoutY="98.0" opacity="0.74" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Untitled-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="272.0" layoutY="69.0" text="GAME OVER!" textFill="WHITE">
+         <font>
+            <Font name="Century Gothic Bold" size="48.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="225.0" layoutX="188.0" layoutY="157.0" stroke="WHITE" strokeType="INSIDE" width="463.0" />
+      <Label layoutX="374.0" layoutY="176.0" text="SCORE">
+         <font>
+            <Font name="Century Gothic" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="404.0" layoutY="205.0" text="5">
+         <font>
+            <Font name="Century Gothic Bold" size="52.0" />
+         </font>
+      </Label>
+      <Label layoutX="388.0" layoutY="268.0" text="BEST">
+         <font>
+            <Font name="Century Gothic" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="391.0" layoutY="299.0" text="11">
+         <font>
+            <Font name="Century Gothic Bold" size="52.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#ff7474" height="78.0" layoutX="277.0" layoutY="423.0" stroke="#ff7474" strokeType="INSIDE" width="288.0" />
+      <Label layoutX="318.0" layoutY="444.0" text="Revive?" textFill="WHITE">
+         <font>
+            <Font name="Century Gothic Bold Italic" size="28.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7aa9a4" height="41.0" layoutX="744.0" layoutY="28.0" opacity="0.48" stroke="#aeaeae" strokeType="INSIDE" strokeWidth="0.0" width="71.0" />
+      <ImageView fitHeight="41.0" fitWidth="37.0" layoutX="748.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@9162409-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="789.0" layoutY="35.0" text="9" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0" layoutX="449.0" layoutY="441.0" opacity="0.48" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" width="71.0" />
+      <ImageView fitHeight="41.0" fitWidth="37.0" layoutX="453.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@9162409-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="494.0" layoutY="448.0" text="10" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="189.0" layoutY="545.0" stroke="BLACK" strokeType="INSIDE" width="87.0" />
+      <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="313.0" layoutY="545.0" stroke="BLACK" strokeType="INSIDE" width="94.0" />
+      <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="436.0" layoutY="545.0" stroke="BLACK" strokeType="INSIDE" width="87.0" />
+      <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="570.0" layoutY="545.0" stroke="BLACK" strokeType="INSIDE" width="87.0" />
+      <ImageView fitHeight="78.0" fitWidth="87.0" layoutX="193.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@home%20icon.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="36.0" layoutX="323.0" layoutY="584.0" stroke="WHITE" strokeType="INSIDE" width="21.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="349.0" layoutY="570.0" stroke="WHITE" strokeType="INSIDE" width="21.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="28.0" layoutX="374.0" layoutY="592.0" stroke="WHITE" strokeType="INSIDE" width="21.0" />
+      <ImageView fitHeight="68.0" fitWidth="71.0" layoutX="446.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@star.png" />
+         </image>
+      </ImageView>
+      <Circle fill="WHITE" layoutX="614.0" layoutY="584.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
+      <ImageView fitHeight="82.0" fitWidth="90.0" layoutX="572.0" layoutY="545.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@retry-removebg-preview.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
