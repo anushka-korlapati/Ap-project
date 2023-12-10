@@ -328,9 +328,17 @@ public class HelloController implements Initializable {
                     moveCharacterY(characterImageView, 3.5);
                     isDead = true;
                 })
-
         );
-        fallTimeline.setCycleCount(Animation.INDEFINITE);
+
+        fallTimeline.setOnFinished(event -> {
+            try {
+                switchToEnd();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        fallTimeline.setCycleCount((int) (planeHeight / 3.5)); // Adjust the cycle count based on the fall distance
         fallTimeline.play();
     }
 
@@ -376,9 +384,8 @@ public class HelloController implements Initializable {
         }
     }
 
-
     public void switchToEnd() throws IOException {
-        if (isDead) {
+        if ((isDead) && !(firstTime == 1)) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("end.fxml"));
             scene = new Scene(loader.load());
             stage.setScene(scene);
