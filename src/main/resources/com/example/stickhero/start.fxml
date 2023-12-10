@@ -15,12 +15,12 @@
             <Image url="@Frame%204bg.png" />
          </image>
       </ImageView>
-      <Label layoutX="170.0" layoutY="40.0" text="STICK" textFill="WHITE">
+      <Label layoutX="78.0" layoutY="32.0" text="STICK" textFill="WHITE">
          <font>
             <Font name="Century Gothic Bold" size="72.0" />
          </font>
       </Label>
-      <Label layoutX="170.0" layoutY="97.0" text="HERO" textFill="WHITE">
+      <Label layoutX="269.0" layoutY="33.0" text="HERO" textFill="WHITE">
          <font>
             <Font name="Century Gothic Bold" size="72.0" />
          </font>
@@ -30,33 +30,38 @@
             <Image url="@Frame%201pillar.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="230.0" fitWidth="89.0" layoutX="48.0" layoutY="403.0" pickOnBounds="true">
+      <ImageView fitHeight="204.0" fitWidth="89.0" layoutX="48.0" layoutY="429.0" pickOnBounds="true">
          <image>
             <Image url="@Frame%202pillar.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="238.0" fitWidth="96.0" layoutX="384.0" layoutY="395.0" pickOnBounds="true">
+      <ImageView fitHeight="204.0" fitWidth="96.0" layoutX="384.0" layoutY="429.0" pickOnBounds="true">
          <image>
             <Image url="@Frame%205pillar.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="DODGERBLUE" height="78.0" layoutX="153.0" layoutY="215.0" stroke="DODGERBLUE" strokeType="INSIDE" width="222.0" />
+      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="DODGERBLUE" height="78.0" layoutX="160.0" layoutY="155.0" stroke="DODGERBLUE" strokeType="INSIDE" width="222.0" />
       <ImageView fitHeight="56.0" fitWidth="72.0" layoutX="231.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@hero-removebg-preview%203.png" />
       </ImageView>
-      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="70.0" layoutX="165.0" layoutY="213.0" stroke="#4adeff" strokeType="INSIDE" width="200.0" />
-      <Button layoutX="170.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="70.0" prefWidth="189.0" text="Button" />
-      <Label layoutX="191.0" layoutY="226.0" text="Play now">
+      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="70.0" layoutX="172.0" layoutY="153.0" stroke="#4adeff" strokeType="INSIDE" width="200.0" />
+      <Label layoutX="198.0" layoutY="166.0" text="Play now">
          <font>
             <Font name="Century Gothic Bold" size="34.0" />
          </font>
       </Label>
-      <Label layoutX="-7.0" layoutY="157.0" prefHeight="15.0" prefWidth="0.0">
+      <Button layoutX="177.0" layoutY="155.0" mnemonicParsing="false" opacity="0.0" prefHeight="70.0" prefWidth="189.0" text="Button" />
+      <Label layoutY="97.0" prefHeight="15.0" prefWidth="0.0">
          <font>
             <Font name="Century Gothic Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="174.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToHome" opacity="0.0" prefHeight="62.0" prefWidth="182.0" text="next" />
-      <Button layoutX="341.0" layoutY="223.0" mnemonicParsing="false" onAction="#switchToScene1" prefHeight="62.0" prefWidth="182.0" text="How to Play" />
+      <Button layoutX="181.0" layoutY="156.0" mnemonicParsing="false" onAction="#switchToHome" opacity="0.0" prefHeight="62.0" prefWidth="182.0" text="next" />
+      <Button layoutX="180.0" layoutY="282.0" mnemonicParsing="false" onAction="#switchToScene1" opacity="0.84" prefHeight="36.0" prefWidth="182.0" text="How To Play" textFill="#993131">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="209.0" layoutY="262.0" text="Click here for a tutorial" textFill="WHITE" />
    </children>
 </AnchorPane>
