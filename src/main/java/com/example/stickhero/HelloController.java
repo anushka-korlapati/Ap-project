@@ -453,11 +453,7 @@ public class HelloController implements Initializable {
     }
 
     public void switchToScene1(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew1.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        this.sceneSwitcher = sceneSwitcher;
     }
 
     public void switchToScene2(ActionEvent event) throws IOException {
