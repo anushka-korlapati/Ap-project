@@ -47,7 +47,7 @@
             <Image url="@9162409-removebg-preview.png" />
          </image>
       </ImageView>
-      <Label layoutX="476.0" layoutY="40.0" text="0" textFill="WHITE">
+      <Label fx:id="score" layoutX="476.0" layoutY="40.0" text="0" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
