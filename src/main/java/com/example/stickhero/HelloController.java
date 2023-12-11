@@ -197,6 +197,14 @@ public class HelloController implements Initializable {
         // Implementing Singleton Design Pattern, so that only one instance of MediaPlayer is created
         mediaPlayer();
 
+        shark = new Shark(-6, 185, 100.0, sharkImageView);
+
+        shark.translate(725);
+        shark.moveDown();
+        System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
+
+        shark.moveForwardContinuously(); // Start the continuous movement
+
         double posX, posY, width, height;
         rectangle1 = new Rectangle(54, 385, 105, 248);
         rectangle1.setFill(Color.WHITE);
@@ -278,8 +286,10 @@ public class HelloController implements Initializable {
 
         Random random1 = new Random();
         int x = random1.nextInt(75)+50;
+//        int y = random1.nextInt(75)+50;
         cherryImageView.setOpacity(1);
         cherryImageView.setX(x);
+//        cherryImageView.setY(y);
         characterImageView.setX(5);
 
     }
