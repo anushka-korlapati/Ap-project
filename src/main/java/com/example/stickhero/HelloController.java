@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.*;
 
 public class HelloController implements Initializable {
+    private SceneSwitcherFacade sceneSwitcher;
     private HelloController controller;
     private MediaPlayer myMediaPlayer;
 
@@ -194,13 +195,7 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Implementing Singleton Design Pattern, so that only one instance of MediaPlayer is created
-//        mediaPlayer();
-
-        // Initialize the MyMediaPlayer singleton
-        entities.MediaPlayer myMediaPlayer = entities.MediaPlayer.getInstance();
-
-        // Play the music
-        myMediaPlayer.play();
+        mediaPlayer();
 
         double posX, posY, width, height;
         rectangle1 = new Rectangle(54, 385, 105, 248);
@@ -236,13 +231,12 @@ public class HelloController implements Initializable {
 
         character = new Character(157.0, 400, 1.0, characterImageView);
 
-        shark = new Shark(-10, 185, 100.0, sharkImageView);
+        shark = new Shark(-6, 185, 100.0, sharkImageView);
 
-//        shark.translate(725);
-//        shark.moveDown();
-//        System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
+        shark.translate(725);
 
-        shark.moveForwardContinuously(); // Start the continuous movement
+        shark.moveDown();
+        System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
 
         double stickStartX = 157.0;
         double stickStartY = 375.0;
@@ -356,55 +350,6 @@ public class HelloController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
     }
-
-
-
-    public void switchToHomeAtEnd() throws IOException {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-
-            Parent root = fxmlLoader.load();
-
-            // Get the controller from the loader
-            HelloController controller = fxmlLoader.getController();
-
-            // Set the stage for the controller
-            controller.setStage(stage);
-
-            // Set the stickLine for the controller
-            controller.setStickLine(stickLine);
-
-            // Get the AnchorPane from the loaded root
-            AnchorPane anchorPane = (AnchorPane) root;
-
-            // Add the stickLine to the AnchorPane
-            anchorPane.getChildren().add(stickLine);
-
-            // Set up the scene with the loaded root
-            Scene homeScene = new Scene(root);
-
-            // Set up key event handlers
-            homeScene.setOnKeyPressed(controller::handleKeyPress);
-            homeScene.setOnKeyReleased(controller::handleKeyRelease);
-
-            // Set the scene to the stage
-            if (stage != null) {
-                stage.setScene(homeScene);
-                stage.show();
-            } else {
-                System.err.println("stage is null. Please check your FXML file.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-
-
 
     public void switchToHome() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
@@ -573,6 +518,14 @@ public class HelloController implements Initializable {
 
     public void switchToScene9(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("Scenenew9.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene10(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew10.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
