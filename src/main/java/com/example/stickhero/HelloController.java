@@ -33,13 +33,17 @@ public class HelloController implements Initializable {
     private MediaPlayer myMediaPlayer;
 
     private Random random = new Random();
-
     AnimationTimer gameLoop;
     @FXML
     private AnchorPane plane;
 
     @FXML
     private Label score;
+
+    @FXML
+    private Label score1;
+    @FXML
+    private Label score2;
 
     @FXML
     public ImageView cherryImageView;
@@ -127,6 +131,7 @@ public class HelloController implements Initializable {
                         cherryImageView.setOpacity(0);
                         scoreCounter++;
                         score.setText(String.valueOf(scoreCounter));
+                        score1.setText(String.valueOf(scoreCounter));
                     }
                     if (x[0] < stickLine.getEndX() + 30) {
                         System.out.println(stickLine.getEndX());
@@ -191,6 +196,94 @@ public class HelloController implements Initializable {
     public void setTimeline(Timeline timeline) {
         this.timeline = timeline;
     }
+
+    public void switchToScene1(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew1.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToScene2(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew2.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToScene3(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew3.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene4(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew4.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene5(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew5.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene6(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew6.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene7(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew7.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene8(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew8.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene9(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew9.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene10(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew10.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+
+    }
+
+    public void switchToScene11(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Scenenew11.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -334,6 +427,19 @@ public class HelloController implements Initializable {
         }
     }
 
+    public void doNothing(ActionEvent event) throws IOException {
+        switchToSceneOne(event);
+        switchToSceneTwo(event);
+        switchToSceneThree(event);
+        switchToSceneFour(event);
+        switchToSceneFive(event);
+        switchToSceneSix(event);
+        switchToSceneSeven(event);
+        switchToSceneEight(event);
+        switchToSceneNine(event);
+        switchToSceneTen(event);
+    }
+
     private void fallCharacter() {
         Timeline fallTimeline = new Timeline(
                 new KeyFrame(Duration.millis(10), event -> {
@@ -462,87 +568,46 @@ public class HelloController implements Initializable {
         return newRandomRectangle;
     }
 
-    public void switchToScene1(ActionEvent event) throws IOException {
+
+
+    public void switchToSceneOne(ActionEvent event) throws IOException{
         this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene2(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew2.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    public void switchToSceneTwo(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene3(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew3.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneThree(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene4(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew4.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneFour(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene5(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew5.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneFive(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene6(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew6.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneSix(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene7(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew7.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneSeven(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene8(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew8.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneEight(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene9(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew9.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
+    public void switchToSceneNine(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
-    public void switchToScene10(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew10.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-
-    }
-
-    public void switchToScene11(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Scenenew11.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
+    public void switchToSceneTen(ActionEvent event) throws IOException{
+        this.sceneSwitcher = sceneSwitcher;
     }
 
     public void setGameStarted(boolean gameStarted) {

@@ -32,7 +32,7 @@
             <Font name="Century Gothic" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="253.0" layoutY="182.0" text="5">
+      <Label fx:id="score" layoutX="253.0" layoutY="182.0" text="5">
          <font>
             <Font name="Century Gothic Bold" size="52.0" />
          </font>
@@ -42,7 +42,7 @@
             <Font name="Century Gothic" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="240.0" layoutY="276.0" text="11">
+      <Label fx:id="score1" layoutX="240.0" layoutY="276.0" text="11">
          <font>
             <Font name="Century Gothic Bold" size="52.0" />
          </font>
