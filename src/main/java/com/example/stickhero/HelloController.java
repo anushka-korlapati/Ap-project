@@ -131,7 +131,6 @@ public class HelloController implements Initializable {
                         cherryImageView.setOpacity(0);
                         scoreCounter++;
                         score.setText(String.valueOf(scoreCounter));
-                        score1.setText(String.valueOf(scoreCounter));
                     }
                     if (x[0] < stickLine.getEndX() + 30) {
                         System.out.println(stickLine.getEndX());
@@ -405,6 +404,8 @@ public class HelloController implements Initializable {
             System.out.println("Collision");
             scoreCounter++;
             score.setText(String.valueOf(scoreCounter));
+            score1.setText(String.valueOf(scoreCounter));
+            score2.setText(String.valueOf(scoreCounter));
             gameLoop.stop();
 
             PauseTransition delay = new PauseTransition(Duration.seconds(2));

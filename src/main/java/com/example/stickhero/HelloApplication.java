@@ -10,6 +10,10 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         try {
@@ -23,9 +27,5 @@ public class HelloApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

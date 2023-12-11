@@ -36,6 +36,14 @@ public class Shark {
         this.positionY = positionY;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     public void moveForward() {
         positionX += speed;
         sharkView.setX(sharkView.getX()+50);
