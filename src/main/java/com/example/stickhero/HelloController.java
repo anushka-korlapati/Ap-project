@@ -9,11 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -28,12 +30,20 @@ import java.net.URL;
 import java.util.*;
 
 public class HelloController implements Initializable {
+    @FXML
+    Label score12;
+    @FXML
+    Label score122;
     private SceneSwitcherFacade sceneSwitcher;
     private HelloController controller;
     private MediaPlayer myMediaPlayer;
+    @FXML
+    ImageView charstart;
 
     private Random random = new Random();
     AnimationTimer gameLoop;
+    @FXML
+    Button endbutton;
     @FXML
     private AnchorPane plane;
 
@@ -50,7 +60,7 @@ public class HelloController implements Initializable {
 
     private double accelerationTime = 0;
     private int gameTime = 0;
-    private int scoreCounter = 0;
+    private int scoreCounter = Score.getCurrentscore();
     private boolean gameStarted = false;
     private double stickEnd;
     private double rectangleRange;
@@ -130,32 +140,44 @@ public class HelloController implements Initializable {
                     if (collectCherry()) {
                         cherryImageView.setOpacity(0);
                         scoreCounter++;
+                        Score.setScore(Score.getScore()+1);
+
+
                         score.setText(String.valueOf(scoreCounter));
+                        score1.setText(String.valueOf(scoreCounter));
                     }
                     if (x[0] < stickLine.getEndX() + 30) {
-                        System.out.println(stickLine.getEndX());
-                        System.out.println(stickLine.getStartX());
-                        System.out.println(x[0]);
+//                        System.out.println(stickLine.getEndX());
+//                        System.out.println(stickLine.getStartX());
+//                        System.out.println(x[0]);
                         moveCharacterX(characterImageView, 1, x[0]);
                         x[0]++;
-                        System.out.println(x[0]);
+//                        System.out.println(x[0]);
                     } else {
                         stop();
                         resetGame();
                     }
                 } else {
                     if (x[0] < stickLine.getEndX() + 30) {
-                        System.out.println(stickLine.getEndX());
-                        System.out.println(stickLine.getStartX());
-                        System.out.println(x[0]);
+//                        System.out.println(stickLine.getEndX());
+//                        System.out.println(stickLine.getStartX());
+//                        System.out.println(x[0]);
                         moveCharacterX(characterImageView, 1, x[0]);
                         x[0]++;
-                        System.out.println(x[0]);
+//                        System.out.println(x[0]);
                     } else {
                         stop();
                         fallCharacter();
                         try {
                             switchToEnd();
+                            Score.highscore();
+                            System.out.println(Score.getScore());
+                            if(score122!=null && score12!=null) {
+                                score122.setText(String.valueOf(Score.getHighscore()));
+                                score12.setText(String.valueOf(Score.getScore()));
+                                Score.setCurrentscore(Score.getScore());
+                                Score.setScore(0);
+                            }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -286,6 +308,12 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(score1 != null && score != null) {
+            System.out.println(Score.getCurrentscore());
+            score1.setText(String.valueOf(scoreCounter));
+            score.setText(String.valueOf(scoreCounter));
+
+        }
         // Implementing Singleton Design Pattern, so that only one instance of MediaPlayer is created
         mediaPlayer();
 
@@ -293,7 +321,7 @@ public class HelloController implements Initializable {
 
         shark.translate(725);
         shark.moveDown();
-        System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
+//        System.out.println("Shark moved forward to positionX: " + shark.getPositionX());
 
         shark.moveForwardContinuously(); // Start the continuous movement
 
@@ -374,7 +402,7 @@ public class HelloController implements Initializable {
         stickLine.setEndX(stickLine.getStartX());
         stickLine.setEndY(stickLine.getStartY());
 
-        rectangle = generateRandomRectangle();
+//        rectangle = generateRandomRectangle();
 
         Random random1 = new Random();
         int x = random1.nextInt(75)+50;
@@ -403,6 +431,7 @@ public class HelloController implements Initializable {
         if (madeContact(stickLine, rectangle2)) {
             System.out.println("Collision");
             scoreCounter++;
+            Score.setScore(Score.getScore()+1);
             score.setText(String.valueOf(scoreCounter));
             score1.setText(String.valueOf(scoreCounter));
             score2.setText(String.valueOf(scoreCounter));
@@ -417,7 +446,6 @@ public class HelloController implements Initializable {
             delay.play();
         } else {
             System.out.println("No Collision");
-            scoreCounter++;
             gameLoop.stop();
 
             if (isStickExtending) {
@@ -425,6 +453,15 @@ public class HelloController implements Initializable {
             }
 
             switchToEnd();
+            System.out.println(Score.getScore());
+            Score.highscore();
+            if(score122!=null && score12!=null) {
+                score122.setText(String.valueOf(Score.getHighscore()));
+                score12.setText(String.valueOf(Score.getScore()));
+                Score.setCurrentscore(Score.getScore());
+                Score.setScore(0);
+            }
+
         }
     }
 
@@ -449,13 +486,18 @@ public class HelloController implements Initializable {
                 })
         );
 
-        fallTimeline.setOnFinished(event -> {
-            try {
-                switchToEnd();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+//        fallTimeline.setOnFinished(event -> {
+//            try {
+//                switchToEnd();
+//                System.out.println(entities.score.getScore());
+//                score122.setText(String.valueOf(entities.score.getScore()));
+//                score12.setText(String.valueOf(entities.score.getScore()));
+//                entities.score.setScore(0);
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
 
         fallTimeline.setCycleCount((int) (planeHeight / 3.5)); // Adjust the cycle count based on the fall distance
         fallTimeline.play();
@@ -464,13 +506,89 @@ public class HelloController implements Initializable {
     public void switchToStart(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("start.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene.getRoot().requestFocus();
         scene = new Scene(root);
         stage.setScene(scene);
     }
 
     public void switchToHome() throws IOException {
+        Score.setRevive(false);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
         Parent root = loader.load();
+        stage = (Stage) charstart.getScene().getWindow();
+
+        // Get the controller from the loader
+        HelloController controller = loader.getController();
+
+        // Set the stage for the controller
+        controller.setStage(stage);
+
+        // Set the stickLine for the controller
+        controller.setStickLine(stickLine);
+
+        // Get the AnchorPane from the loaded root
+        AnchorPane anchorPane = (AnchorPane) root;
+
+        // Add the stickLine to the AnchorPane
+        anchorPane.getChildren().add(stickLine);
+
+        // Set up the scene with the loaded root
+        Scene homeScene = new Scene(root);
+
+        // Set up key event handlers
+        homeScene.setOnKeyPressed(controller::handleKeyPress);
+        homeScene.setOnKeyReleased(controller::handleKeyRelease);
+
+        // Set the scene to the stage
+        if (stage != null) {
+            stage.setScene(homeScene);
+            stage.show();
+        } else {
+            System.err.println("stage is null. Please check your FXML file.");
+        }
+    }
+    public void revive(MouseEvent e) throws IOException {
+        Score.setRevive(true);
+        Score.setScore(Score.getCurrentscore());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+        Parent root = loader.load();
+        stage = (Stage) endbutton.getScene().getWindow();
+
+        // Get the controller from the loader
+        HelloController controller = loader.getController();
+
+        // Set the stage for the controller
+        controller.setStage(stage);
+
+        // Set the stickLine for the controller
+        controller.setStickLine(stickLine);
+
+        // Get the AnchorPane from the loaded root
+        AnchorPane anchorPane = (AnchorPane) root;
+
+        // Add the stickLine to the AnchorPane
+        anchorPane.getChildren().add(stickLine);
+
+        // Set up the scene with the loaded root
+        Scene homeScene = new Scene(root);
+
+        // Set up key event handlers
+        homeScene.setOnKeyPressed(controller::handleKeyPress);
+        homeScene.setOnKeyReleased(controller::handleKeyRelease);
+
+        // Set the scene to the stage
+        if (stage != null) {
+            stage.setScene(homeScene);
+            stage.show();
+        } else {
+            System.err.println("stage is null. Please check your FXML file.");
+        }
+    }
+    public void restart() throws IOException {
+        Score.setRevive(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+        Parent root = loader.load();
+        stage = (Stage) endbutton.getScene().getWindow();
 
         // Get the controller from the loader
         HelloController controller = loader.getController();
@@ -556,18 +674,21 @@ public class HelloController implements Initializable {
 
 // posX = pos of rectangle2 + space
 
-    private Rectangle generateRandomRectangle() {
-        double randomWidth = random.nextDouble() * (widthMax - widthMin) + widthMin;
-        double randomSpace = random.nextDouble() * (spaceMax - spaceMin) + spaceMin;
-        double randomX = random.nextDouble() * (400 - 250) + 250;
-
-        Rectangle newRandomRectangle = new Rectangle(randomX, planeHeight - randomWidth, randomWidth, 248);
-        newRandomRectangle.setFill(Color.WHITE);
-
-        plane.getChildren().add(newRandomRectangle);
-
-        return newRandomRectangle;
-    }
+//    private Rectangle generateRandomRectangle() {
+//        double randomWidth = random.nextDouble(50, 100);
+//        double randomX = random.nextDouble(200, 400);
+//
+//        Rectangle newRandomRectangle = new Rectangle();
+//        newRandomRectangle.setHeight(238);
+//        newRandomRectangle.setWidth(randomWidth);
+//        newRandomRectangle.setX(randomX);
+//        newRandomRectangle.setY(385);
+//        newRandomRectangle.setFill(Color.WHITE);
+//
+//        plane.getChildren().add(newRandomRectangle);
+//
+//        return newRandomRectangle;
+//    }
 
 
 

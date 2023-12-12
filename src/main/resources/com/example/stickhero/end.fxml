@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -32,7 +33,7 @@
             <Font name="Century Gothic" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="score" layoutX="253.0" layoutY="182.0" text="5">
+      <Label fx:id="score12" layoutX="253.0" layoutY="182.0" text="5">
          <font>
             <Font name="Century Gothic Bold" size="52.0" />
          </font>
@@ -42,7 +43,7 @@
             <Font name="Century Gothic" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="score1" layoutX="240.0" layoutY="276.0" text="11">
+      <Label fx:id="score122" layoutX="240.0" layoutY="276.0" text="11">
          <font>
             <Font name="Century Gothic Bold" size="52.0" />
          </font>
@@ -52,23 +53,27 @@
             <Font name="Century Gothic Bold" size="48.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#ff7474" height="78.0" layoutX="129.0" layoutY="387.0" stroke="#ff7474" strokeType="INSIDE" width="288.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0" layoutX="297.0" layoutY="405.0" opacity="0.48" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" width="71.0" />
-      <Label layoutX="170.0" layoutY="408.0" text="Revive?" textFill="WHITE">
-         <font>
-            <Font name="Century Gothic Bold Italic" size="28.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="41.0" fitWidth="37.0" layoutX="305.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@9162409-removebg-preview.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="346.0" layoutY="412.0" text="5" textFill="WHITE">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
+      <Pane fx:id="revive" layoutX="129.0" layoutY="387.0" onMouseClicked="#revive">
+         <children>
+            <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#ff7474" height="78.0" stroke="#ff7474" strokeType="INSIDE" width="288.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0" layoutX="168.0" layoutY="18.0" opacity="0.48" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" width="71.0" />
+            <Label layoutX="41.0" layoutY="21.0" text="Revive?" textFill="WHITE">
+               <font>
+                  <Font name="Century Gothic Bold Italic" size="28.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="41.0" fitWidth="37.0" layoutX="176.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@9162409-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="217.0" layoutY="25.0" text="5" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
       <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="183.0" layoutY="480.0" stroke="BLACK" strokeType="INSIDE" width="87.0" />
       <Rectangle arcHeight="25.0" arcWidth="25.0" height="84.0" layoutX="285.0" layoutY="480.0" stroke="BLACK" strokeType="INSIDE" width="87.0" />
       <ImageView fitHeight="78.0" fitWidth="87.0" layoutX="187.0" layoutY="482.0" pickOnBounds="true" preserveRatio="true">
@@ -82,7 +87,8 @@
             <Image url="@retry-removebg-preview.png" />
          </image>
       </ImageView>
-      <Button layoutX="286.0" layoutY="480.0" mnemonicParsing="false" onAction="#switchToHome" opacity="0.0" prefHeight="78.0" prefWidth="87.0" text="Restart" />
-      <Button layoutX="186.0" layoutY="483.0" mnemonicParsing="false" onAction="#switchToStart" opacity="0.0" prefHeight="78.0" prefWidth="82.0" text="Home" />
+      <Button layoutX="286.0" layoutY="480.0" mnemonicParsing="false" onAction="#restart" opacity="0.0" prefHeight="78.0" prefWidth="87.0" text="Restart" />
+      <Button fx:id="endbutton" layoutX="186.0" layoutY="483.0" mnemonicParsing="false" onAction="#switchToStart" opacity="0.0" prefHeight="78.0" prefWidth="82.0" text="Home" />
+      <Pane layoutX="183.0" layoutY="275.0" prefHeight="113.0" prefWidth="298.0" />
    </children>
 </AnchorPane>
